@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  screen-host:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM ubuntu:latest
+        RUN apt-get update && apt-get install -y screen && rm -rf /var/lib/apt/lists/*
+    container_name: screen_host
+    pid: "host"
+    network_mode: "host"
+    user: "1000:1000"
+    volumes:
+      - /run/screen:/run/screen
+      - /var/run/screen:/var/run/screen
+    tty: true
+    stdin_open: true
+    command: bash -c "sleep infinity"
+
